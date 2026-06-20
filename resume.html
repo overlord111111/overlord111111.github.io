@@ -7,8 +7,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',sans-serif;background:#fafafa;color:#111;line-height:1.5;padding:40px 24px}
-.container{max-width:800px;margin:0 auto;background:#fff;border:1px solid #eee;border-radius:16px;padding:48px}
+:root{--bg:#fafafa;--card:#fff;--text:#111;--text2:#555;--text3:#888;--border:#eee}
+@media(prefers-color-scheme:dark){
+:root{--bg:#0a0a0b;--card:#131315;--text:#e4e4e7;--text2:#a1a1aa;--text3:#71717a;--border:#1f1f23}
+body{background:var(--bg);color:var(--text)}
+.container{background:var(--card);border-color:var(--border)}
+.skill-grid span{background:var(--border);color:var(--text2)}
+h2{border-color:var(--border)}.sub{border-color:var(--border)}.item .meta{color:var(--text3)}
+p,li{color:var(--text2)}
+.print-btn{background:var(--text);color:var(--bg)}
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:40px 24px}
+.container{max-width:800px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:48px}
 h1{font-size:2rem;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
 .sub{color:#888;font-size:.9rem;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #eee}
 h2{font-size:1rem;font-weight:600;margin:24px 0 12px;padding-bottom:4px;border-bottom:1px solid #eee;letter-spacing:-.01em}
@@ -76,6 +86,7 @@ Portfolio: overlord111111.github.io<br/>
 GitHub: github.com/overlord111111</p>
 
 <button class="print-btn" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+<button class="print-btn" style="margin-left:8px" onclick="document.documentElement.style.setProperty('--bg',document.documentElement.style.getPropertyValue('--bg')==='#0a0a0b'?'#fafafa':'#0a0a0b')">🌓 Tema</button>
 </div>
 </body>
 </html>
