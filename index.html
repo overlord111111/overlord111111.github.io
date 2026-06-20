@@ -1,266 +1,238 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Over — desenvolvimento & segurança</title>
-  <meta name="description" content="Over. Desenvolvimento de software, segurança ofensiva e automação." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000'/><text x='16' y='23' text-anchor='middle' font-size='20' fill='%23fff'>O</text></svg>" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', -apple-system, system-ui, sans-serif;
-      background: #fafafa;
-      color: #111;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: inherit; text-decoration: none; }
-    .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Over — código, segurança & automação</title>
+<meta name="description" content="Over. Desenvolvimento de software, segurança ofensiva, automação e tudo que envolve entender sistemas por dentro."/>
+<meta name="theme-color" content="#fafafa"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23000'/><text x='16' y='23' text-anchor='middle' font-size='20' fill='%23fff'>O</text></svg>"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #fafafa;
+  --bg-card: #fff;
+  --bg-card-hover: #f7f7f7;
+  --text: #111;
+  --text-secondary: #555;
+  --text-muted: #888;
+  --border: #eee;
+  --border-hover: #ccc;
+  --nav-bg: rgba(250,250,250,.85);
+  --accent: #111;
+  --invert: 0;
+}
+[data-theme="dark"] {
+  --bg: #0a0a0b;
+  --bg-card: #131315;
+  --bg-card-hover: #1a1a1d;
+  --text: #e4e4e7;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --border: #1f1f23;
+  --border-hover: #3f3f46;
+  --nav-bg: rgba(10,10,11,.85);
+  --accent: #e4e4e7;
+  --invert: 1;
+}
 
-    /* nav */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      padding: 16px 0;
-      transition: background .3s, box-shadow .3s;
-    }
-    nav.scrolled {
-      background: rgba(250,250,250,.85);
-      backdrop-filter: blur(16px) saturate(180%);
-      box-shadow: 0 1px 0 rgba(0,0,0,.06);
-    }
-    .nav-inner {
-      display: flex; align-items: center; justify-content: space-between;
-      max-width: 1120px; margin: 0 auto; padding: 0 24px;
-    }
-    .nav-logo { font-weight: 700; font-size: 1.1rem; letter-spacing: -.02em; }
-    .nav-links { display: flex; gap: 28px; list-style: none; }
-    .nav-links a { font-size: .875rem; color: #666; transition: color .2s; font-weight: 500; }
-    .nav-links a:hover { color: #111; }
-    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; flex-direction: column; gap: 5px; }
-    .nav-toggle span { display: block; width: 20px; height: 2px; background: #111; border-radius: 1px; transition: .3s; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',-apple-system,system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  transition:background .3s,color .3s;
+}
+a{color:inherit;text-decoration:none}
+.container{max-width:1120px;margin:0 auto;padding:0 24px}
 
-    /* hero */
-    .hero {
-      min-height: 85vh;
-      display: flex;
-      align-items: center;
-      padding: 120px 0 80px;
-      position: relative;
-    }
-    .hero-content { max-width: 720px; }
-    .hero-label {
-      display: inline-block;
-      font-size: .75rem;
-      font-weight: 600;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: #888;
-      margin-bottom: 20px;
-    }
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 700;
-      letter-spacing: -.03em;
-      line-height: 1.05;
-      margin-bottom: 20px;
-    }
-    .hero h1 em {
-      font-style: normal;
-      background: linear-gradient(135deg, #111 30%, #555);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero p {
-      font-size: 1.15rem;
-      color: #555;
-      max-width: 560px;
-      margin-bottom: 36px;
-      line-height: 1.6;
-    }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 10px 24px; border-radius: 8px;
-      font-size: .9rem; font-weight: 600;
-      transition: all .2s; cursor: pointer;
-      border: none; font-family: inherit;
-    }
-    .btn-primary { background: #111; color: #fff; }
-    .btn-primary:hover { background: #333; transform: translateY(-1px); }
-    .btn-outline { background: transparent; color: #111; border: 1px solid #ddd; }
-    .btn-outline:hover { border-color: #999; background: #f5f5f5; }
+/* nav */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:16px 0;
+  transition:background .3s,box-shadow .3s;
+}
+nav.scrolled{background:var(--nav-bg);backdrop-filter:blur(16px) saturate(180%);box-shadow:0 1px 0 var(--border)}
+.nav-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  max-width:1120px;margin:0 auto;padding:0 24px
+}
+.nav-logo{font-weight:700;font-size:1.1rem;letter-spacing:-.02em}
 
-    /* sections */
-    section { padding: 100px 0; }
-    .section-tag {
-      font-size: .75rem; font-weight: 600; letter-spacing: .08em;
-      text-transform: uppercase; color: #999; margin-bottom: 8px;
-    }
-    .section-h2 {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 700; letter-spacing: -.02em;
-      margin-bottom: 12px;
-    }
-    .section-desc {
-      color: #666; font-size: 1rem; line-height: 1.6;
-      max-width: 520px; margin-bottom: 48px;
-    }
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-size:.875rem;color:var(--text-muted);transition:color .2s;font-weight:500}
+.nav-links a:hover{color:var(--text)}
 
-    /* bento grid */
-    .bento {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-    .bento-item {
-      background: #fff;
-      border: 1px solid #eee;
-      border-radius: 16px;
-      padding: 28px;
-      transition: box-shadow .2s, transform .2s;
-    }
-    .bento-item:hover {
-      box-shadow: 0 8px 30px rgba(0,0,0,.04);
-      transform: translateY(-2px);
-    }
-    .bento-wide { grid-column: span 2; }
-    .bento-item .icon { font-size: 1.5rem; margin-bottom: 12px; display: block; }
-    .bento-item h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
-    .bento-item p { font-size: .875rem; color: #666; line-height: 1.6; }
-    .bento-item .stat {
-      font-size: 2.2rem; font-weight: 700; line-height: 1.1;
-      letter-spacing: -.03em;
-    }
-    .bento-item .stat-label {
-      font-size: .8rem; color: #888; margin-top: 4px;
-    }
+/* theme toggle */
+.theme-toggle{
+  background:none;border:1px solid var(--border);border-radius:8px;
+  width:36px;height:36px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;transition:all .2s;color:var(--text)
+}
+.theme-toggle:hover{border-color:var(--border-hover);background:var(--bg-card)}
 
-    .skill-pills {
-      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px;
-    }
-    .skill-pills span {
-      padding: 4px 12px;
-      background: #f5f5f5;
-      border-radius: 20px;
-      font-size: .8rem;
-      color: #444;
-    }
+.nav-toggle{
+  display:none;background:none;border:none;cursor:pointer;
+  padding:4px;flex-direction:column;gap:5px
+}
+.nav-toggle span{display:block;width:20px;height:2px;background:var(--text);border-radius:1px;transition:.3s}
 
-    /* projects */
-    .proj-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 16px;
-    }
-    .proj-card {
-      background: #fff;
-      border: 1px solid #eee;
-      border-radius: 16px;
-      padding: 28px;
-      transition: box-shadow .2s, transform .2s;
-      display: flex;
-      flex-direction: column;
-    }
-    .proj-card:hover {
-      box-shadow: 0 8px 30px rgba(0,0,0,.04);
-      transform: translateY(-3px);
-    }
-    .proj-card .icon { font-size: 1.8rem; margin-bottom: 16px; }
-    .proj-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
-    .proj-card p { font-size: .85rem; color: #666; line-height: 1.6; flex: 1; }
-    .proj-card .tags {
-      display: flex; flex-wrap: wrap; gap: 4px; margin-top: 16px;
-    }
-    .proj-card .tags span {
-      padding: 2px 10px;
-      background: #f5f5f5;
-      border-radius: 4px;
-      font-size: .75rem;
-      color: #666;
-    }
-    .proj-card .foot {
-      margin-top: 16px; font-size: .8rem; font-weight: 500;
-      color: #888; display: flex; align-items: center; gap: 4px;
-    }
+/* hero */
+.hero{min-height:85vh;display:flex;align-items:center;padding:120px 0 80px;position:relative}
+.hero-content{max-width:720px}
+.hero-label{
+  display:inline-block;font-size:.75rem;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text-muted);margin-bottom:20px
+}
+.hero h1{
+  font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;
+  letter-spacing:-.03em;line-height:1.05;margin-bottom:20px
+}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--text) 30%,var(--text-muted));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:1.15rem;color:var(--text-secondary);max-width:560px;margin-bottom:36px;line-height:1.6}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:10px 24px;border-radius:8px;
+  font-size:.9rem;font-weight:600;
+  transition:all .2s;cursor:pointer;
+  border:none;font-family:inherit
+}
+.btn-primary{background:var(--accent);color:var(--bg)}
+.btn-primary:hover{opacity:.8;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-outline:hover{border-color:var(--border-hover);background:var(--bg-card)}
 
-    /* contact */
-    .contact-links {
-      display: flex; gap: 12px; flex-wrap: wrap;
-    }
-    .contact-item {
-      display: flex; align-items: center; gap: 8px;
-      padding: 12px 20px;
-      background: #fff;
-      border: 1px solid #eee;
-      border-radius: 10px;
-      font-size: .9rem; font-weight: 500;
-      transition: all .2s;
-    }
-    .contact-item:hover {
-      border-color: #ccc;
-      box-shadow: 0 4px 12px rgba(0,0,0,.04);
-    }
+/* sections */
+section{padding:100px 0}
+.section-tag{
+  font-size:.75rem;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--text-muted);margin-bottom:8px
+}
+.section-h2{
+  font-size:clamp(1.5rem,3vw,2rem);
+  font-weight:700;letter-spacing:-.02em;margin-bottom:12px
+}
+.section-desc{color:var(--text-secondary);font-size:1rem;line-height:1.6;max-width:520px;margin-bottom:48px}
 
-    /* footer */
-    footer {
-      padding: 40px 24px;
-      text-align: center;
-      border-top: 1px solid #eee;
-      color: #999;
-      font-size: .8rem;
-    }
+/* bento */
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.bento-item{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:16px;
+  padding:28px;transition:box-shadow .2s,transform .2s,background .3s,border .3s
+}
+.bento-item:hover{box-shadow:0 8px 30px rgba(0,0,0,.06);transform:translateY(-2px);background:var(--bg-card-hover)}
+.bento-wide{grid-column:span 2}
+.bento-tall{grid-row:span 2}
+.bento-full{grid-column:1/-1}
+.bento-item .icon{font-size:1.5rem;margin-bottom:12px;display:block}
+.bento-item h3{font-size:1rem;font-weight:600;margin-bottom:8px}
+.bento-item p{font-size:.875rem;color:var(--text-secondary);line-height:1.6}
+.bento-item .stat{font-size:2.2rem;font-weight:700;line-height:1.1;letter-spacing:-.03em}
+.bento-item .stat-label{font-size:.8rem;color:var(--text-muted);margin-top:4px}
+.skill-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.skill-pills span{padding:4px 12px;background:var(--bg);border-radius:20px;font-size:.8rem;color:var(--text-secondary);transition:background .3s}
 
-    @media (max-width: 768px) {
-      .bento { grid-template-columns: 1fr; }
-      .bento-wide { grid-column: span 1; }
-      .nav-links {
-        position: fixed; top: 56px; left: 0; right: 0;
-        background: rgba(250,250,250,.98); backdrop-filter: blur(16px);
-        flex-direction: column; padding: 24px; gap: 16px;
-        border-bottom: 1px solid #eee;
-        transform: translateY(-120%); opacity: 0;
-        transition: .3s; pointer-events: none;
-      }
-      .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: all; }
-      .nav-toggle { display: flex; }
-      .proj-grid { grid-template-columns: 1fr; }
-      section { padding: 60px 0; }
-      .hero { min-height: auto; padding: 100px 0 60px; }
-    }
-  </style>
+/* projects */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.proj-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:16px;
+  padding:28px;transition:box-shadow .2s,transform .2s,border .3s,background .3s;
+  display:flex;flex-direction:column
+}
+.proj-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.06);transform:translateY(-3px);border-color:var(--border-hover)}
+.proj-card .icon{font-size:1.8rem;margin-bottom:16px}
+.proj-card h3{font-size:1.05rem;font-weight:600;margin-bottom:8px}
+.proj-card p{font-size:.85rem;color:var(--text-secondary);line-height:1.6;flex:1}
+.proj-card .tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:16px}
+.proj-card .tags span{padding:2px 10px;background:var(--bg);border-radius:4px;font-size:.75rem;color:var(--text-muted)}
+.proj-card .foot{margin-top:16px;font-size:.8rem;font-weight:500;color:var(--text-muted);display:flex;align-items:center;gap:4px}
+
+/* contact */
+.contact-links{display:flex;gap:12px;flex-wrap:wrap}
+.contact-item{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 20px;background:var(--bg-card);
+  border:1px solid var(--border);border-radius:10px;
+  font-size:.9rem;font-weight:500;transition:all .2s
+}
+.contact-item:hover{border-color:var(--border-hover);box-shadow:0 4px 12px rgba(0,0,0,.04)}
+.contact-item .contact-label{font-size:.75rem;color:var(--text-muted);font-weight:400;display:block}
+
+/* skill-grid for expanded skills */
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.skill-card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:12px;
+  padding:20px;transition:all .2s
+}
+.skill-card:hover{border-color:var(--border-hover)}
+.skill-card .skill-icon{font-size:1.3rem;margin-bottom:8px;display:block}
+.skill-card h4{font-size:.9rem;font-weight:600;margin-bottom:4px}
+.skill-card p{font-size:.8rem;color:var(--text-secondary)}
+
+/* footer */
+footer{padding:40px 24px;text-align:center;border-top:1px solid var(--border);color:var(--text-muted);font-size:.8rem;transition:border .3s}
+
+@media (max-width:768px){
+  .bento{grid-template-columns:1fr}
+  .bento-wide{grid-column:span 1}
+  .bento-tall{grid-row:span 1}
+  .skill-grid{grid-template-columns:1fr 1fr}
+  .nav-links{
+    position:fixed;top:56px;left:0;right:0;
+    background:var(--bg);backdrop-filter:blur(16px);
+    flex-direction:column;padding:24px;gap:16px;
+    border-bottom:1px solid var(--border);
+    transform:translateY(-120%);opacity:0;
+    transition:.3s;pointer-events:none;z-index:99
+  }
+  .nav-links.open{transform:translateY(0);opacity:1;pointer-events:all}
+  .nav-toggle{display:flex}
+  .proj-grid{grid-template-columns:1fr}
+  section{padding:60px 0}
+  .hero{min-height:auto;padding:100px 0 60px}
+}
+@media (max-width:480px){.skill-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
 <nav id="nav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">Over</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#about">Sobre</a></li>
-      <li><a href="#work">Trabalho</a></li>
-      <li><a href="#projects">Projetos</a></li>
-      <li><a href="#contact">Contato</a></li>
-    </ul>
+    <div class="nav-right">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">Sobre</a></li>
+        <li><a href="#skills">Habilidades</a></li>
+        <li><a href="#work">Atuação</a></li>
+        <li><a href="#projects">Projetos</a></li>
+        <li><a href="#contact">Contato</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">&#x263E;</button>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </nav>
 
 <section class="hero">
   <div class="container">
     <div class="hero-content">
-      <span class="hero-label">Desenvolvedor &bull; Brasil</span>
+      <span class="hero-label">Programador &bull; Hacker Ético &bull; Brasil</span>
       <h1>
         Código,<br/>
         <em>segurança &amp; automação.</em>
       </h1>
       <p>
-        Sou o Over. Programo, automatizo, e ocasionalmente quebro coisas 
-        pra entender como funcionam — sempre do lado certo.
+        Sou o Over. Programo, automatizo, quebro e construo — do front-end 
+        ao kernel, do pentest ao pipeline. Se envolve tecnologia, eu meto a mão.
       </p>
       <div class="hero-actions">
         <a href="#projects" class="btn btn-primary">Ver projetos &darr;</a>
@@ -273,33 +245,32 @@
 <section id="about">
   <div class="container">
     <span class="section-tag">Sobre</span>
-    <h2 class="section-h2">Nem só de 0s e 1s</h2>
+    <h2 class="section-h2">Resolvedor de problemas</h2>
     <p class="section-desc">
-      O que eu faço, o que eu sei, e o que me move.
+      Programador brasileiro, hacker ético, curioso profissional. Se tem 
+      teclado envolvido, eu me viro.
     </p>
     <div class="bento">
       <div class="bento-item bento-wide">
         <span class="icon">&#x2192;</span>
-        <h3>Oi, eu sou o Over</h3>
+        <h3>Quem é esse cara</h3>
         <p>
-          Programador brasileiro, hacker ético, e curioso profissional. 
-          Comecei como todo mundo — desmontando coisa que não devia — e 
-          virei isso aqui. Trabalho com desenvolvimento web, segurança 
-          ofensiva, automação de infra, e um pouco de OSINT. Gosto de 
-          resolver problemas que ninguém mais quer encostar.
+          Comecei desmontando tudo que via pela frente — de site a sistema 
+          operacional. Hoje eu construo, protejo e automatizo. Já fiz desde 
+          pipeline de dados que rodava meses sem morrer até bypass que 
+          ninguém esperava.
         </p>
         <p style="margin-top:12px;">
-          Python é minha ferramenta principal, mas não tenho preconceito: 
-          Bash, JavaScript, SQL, Docker, Linux — o que resolver. Já fiz 
-          desde script de bypass até pipeline de scraping que rodava 
-          semanas sem morrer.
+          Python é minha base, mas JavaScript, Bash, SQL, C, Docker, Linux 
+          — tudo é ferramenta. Não gosto de caixinha: front-end, back-end, 
+          rede, infra, ofensiva, OSINT. O problema define a stack, não eu.
         </p>
       </div>
       <div class="bento-item">
         <span class="stat">Python</span>
         <div class="stat-label">Stack principal</div>
         <div class="skill-pills" style="margin-top:16px;">
-          <span>Django</span><span>FastAPI</span><span>Scraping</span>
+          <span>Django</span><span>FastAPI</span><span>Scripts</span>
         </div>
       </div>
       <div class="bento-item">
@@ -312,88 +283,139 @@
       <div class="bento-item">
         <span class="icon">&#x2699;&#xFE0F;</span>
         <h3>Infra & DevOps</h3>
-        <p>Docker, GitHub Actions, Linux, nginx.</p>
-        <div class="skill-pills">
-          <span>Docker</span><span>Linux</span><span>Git</span>
-        </div>
+        <p>Docker, Linux, GitHub Actions, nginx, cloud.</p>
+        <div class="skill-pills"><span>Docker</span><span>Linux</span><span>CI/CD</span><span>Git</span></div>
       </div>
       <div class="bento-item">
         <span class="icon">&#x1F50D;</span>
-        <h3>OSINT</h3>
-        <p>Coleta de dados públicos, footprinting, análise de superfície.</p>
+        <h3>OSINT & Recon</h3>
+        <p>Coleta de dados públicos, footprinting, Shodan, Maltego.</p>
       </div>
       <div class="bento-item bento-wide">
         <span class="icon">&#x1F4AC;</span>
-        <h3>O que eu penso</h3>
+        <h3>Filosofia</h3>
         <p>
-          Segurança não é produto, é processo. Código bom é código que 
-          resolve o problema sem criar três outros. Hacker não é quem 
-          quebra — é quem entende como as coisas funcionam por baixo.
+          Segurança não é produto, é processo. Hacker não é quem quebra — 
+          é quem entende como as coisas funcionam por baixo dos panos. 
+          Código bom resolve o problema real sem criar três outros.
         </p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="work" style="background:#fff;border-top:1px solid #eee;border-bottom:1px solid #eee;">
+<section id="skills" style="background:var(--bg-card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .3s,border .3s">
   <div class="container">
-    <span class="section-tag">Atuação</span>
-    <h2 class="section-h2">O que eu entrego</h2>
+    <span class="section-tag">Habilidades</span>
+    <h2 class="section-h2">Eu faço de tudo</h2>
     <p class="section-desc">
-      Desenvolvimento, automação e segurança.
+      Não sou especialista em uma coisa — sou bom em entender sistemas 
+      e resolver problemas, independente da camada.
     </p>
-    <div class="bento">
-      <div class="bento-item">
-        <span class="icon">&#x1F4BB;</span>
-        <h3>Dev Web</h3>
-        <p>APIs, backends, scrapers, ferramentas internas.</p>
+    <div class="skill-grid">
+      <div class="skill-card">
+        <span class="skill-icon">&#x1F4BB;</span>
+        <h4>Desenvolvimento Web</h4>
+        <p>APIs REST, backends, frontends, scrapers, integrações. Django, FastAPI, JavaScript puro.</p>
       </div>
-      <div class="bento-item">
-        <span class="icon">&#x1F6E1;&#xFE0F;</span>
-        <h3>Pentest</h3>
-        <p>Teste de intrusão em apps web e redes. Relatório direto.</p>
+      <div class="skill-card">
+        <span class="skill-icon">&#x1F6E1;&#xFE0F;</span>
+        <h4>Segurança Ofensiva</h4>
+        <p>Pentest web e redes, exploração, bypass, engenharia reversa, análise de vulnerabilidades.</p>
       </div>
-      <div class="bento-item">
-        <span class="icon">&#x2699;&#xFE0F;</span>
-        <h3>Automação</h3>
-        <p>Scripts, bots, pipelines. Tudo que roda mais de uma vez.</p>
+      <div class="skill-card">
+        <span class="skill-icon">&#x2699;&#xFE0F;</span>
+        <h4>Automação</h4>
+        <p>Scripts, bots, pipelines de dados, scraping, automação de infra. Se roda mais de uma vez, automatizo.</p>
       </div>
-      <div class="bento-item">
-        <span class="icon">&#x1F50E;</span>
-        <h3>OSINT</h3>
-        <p>Recon, inteligência de fontes abertas, mapeamento.</p>
+      <div class="skill-card">
+        <span class="skill-icon">&#x1F50E;</span>
+        <h4>OSINT</h4>
+        <p>Reconhecimento, inteligência de fontes abertas, mapeamento de superfície de ataque, engenharia social.</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">&#x1F4E1;</span>
+        <h4>Infraestrutura</h4>
+        <p>Docker, Linux, servidores, redes, cloud, CI/CD, deploy, monitoramento.</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">&#x1F4DD;</span>
+        <h4>Bancos & Dados</h4>
+        <p>MySQL, PostgreSQL, SQLite. Modelagem, query tuning, ETL, análise.</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">&#x1F4A1;</span>
+        <h4>Engenharia Reversa</h4>
+        <p>Descompilação, análise de binários, debug, patch, bypass de proteções.</p>
+      </div>
+      <div class="skill-card">
+        <span class="skill-icon">&#x1F916;</span>
+        <h4>IA & Automacão Inteligente</h4>
+        <p>Integração com LLMs, agents autônomos, automação com IA, pipelines inteligentes.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="projects">
+<section id="work">
+  <div class="container">
+    <span class="section-tag">Atuação</span>
+    <h2 class="section-h2">O que eu entrego</h2>
+    <p class="section-desc">
+      Desenvolvimento, segurança, automação — e tudo que aparecer no meio.
+    </p>
+    <div class="bento">
+      <div class="bento-item">
+        <span class="icon">&#x1F4BB;</span>
+        <h3>Web Dev</h3>
+        <p>APIs, backends, scrapers, ferramentas internas. Código que roda e resolve.</p>
+      </div>
+      <div class="bento-item">
+        <span class="icon">&#x1F6E1;&#xFE0F;</span>
+        <h3>Pentest</h3>
+        <p>Teste de intrusão em apps web e redes. Relatório direto, sem firula.</p>
+      </div>
+      <div class="bento-item">
+        <span class="icon">&#x2699;&#xFE0F;</span>
+        <h3>Automação</h3>
+        <p>Scripts, bots, pipelines. Tudo que roda mais de uma vez tem que automatizar.</p>
+      </div>
+      <div class="bento-item">
+        <span class="icon">&#x1F50E;</span>
+        <h3>OSINT</h3>
+        <p>Recon, coleta de dados, mapeamento de superfície de ataque.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" style="background:var(--bg-card);border-top:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .3s,border .3s">
   <div class="container">
     <span class="section-tag">Projetos</span>
-    <h2 class="section-h2">Coisas que eu fiz</h2>
+    <h2 class="section-h2">Código aberto</h2>
     <p class="section-desc">
-      Repositórios abertos com código que uso no dia a dia.
+      Repositórios com ferramentas, writeups e scripts que uso no dia a dia.
     </p>
     <div class="proj-grid">
       <a class="proj-card" href="https://github.com/overlord111111/h4ck-toolkit" target="_blank">
         <div class="icon">&#x1F527;</div>
         <h3>h4ck-toolkit</h3>
-        <p>Ferramentas modulares de segurança ofensiva: port scanner, subdomain finder, web recon. Python.</p>
-        <div class="tags"><span>port scanner</span><span>recon</span><span>python</span></div>
+        <p>Ferramentas modulares de segurança ofensiva. Port scanner TCP multi-threaded, subdomain finder com wordlist embutida, diretório brute-forcer. Python funcional, argparse, cores.</p>
+        <div class="tags"><span>python</span><span>pentest</span><span>scanner</span><span>recon</span></div>
         <div class="foot">GitHub &rarr;</div>
       </a>
       <a class="proj-card" href="https://github.com/overlord111111/ctf-writeups" target="_blank">
         <div class="icon">&#x1F3F4;</div>
         <h3>CTF Writeups</h3>
-        <p>Writeups de CTF com explicação, não só resposta. Web, reversa, estego, crypto.</p>
-        <div class="tags"><span>ctf</span><span>writeups</span></div>
+        <p>Writeups de Capture The Flag com passo a passo real. SQLi, engenharia reversa, esteganografia LSB, cifra clássica. Explicação, payloads, flags.</p>
+        <div class="tags"><span>ctf</span><span>writeups</span><span>security</span></div>
         <div class="foot">GitHub &rarr;</div>
       </a>
       <a class="proj-card" href="https://github.com/overlord111111/over-scripts" target="_blank">
         <div class="icon">&#x1F4DC;</div>
         <h3>Over Scripts</h3>
-        <p>Utilitários: bypass, scraping, monitoramento. Cada um resolveu um problema real.</p>
-        <div class="tags"><span>scripts</span><span>automacao</span></div>
+        <p>Scripts utilitários reais: scraper web com requests+BS4, bypass de path traversal, watcher de diretório, network checker. Prontos pra usar.</p>
+        <div class="tags"><span>python</span><span>bash</span><span>automacao</span></div>
         <div class="foot">GitHub &rarr;</div>
       </a>
     </div>
@@ -404,13 +426,22 @@
   <div class="container">
     <span class="section-tag">Contato</span>
     <h2 class="section-h2">Fala comigo</h2>
-    <p class="section-desc" style="margin-bottom:24px;">
-      GitHub, email, ou pelo perfil.
+    <p class="section-desc" style="margin-bottom:24px">
+      GitHub, email, ou profile README.
     </p>
     <div class="contact-links">
-      <a href="https://github.com/overlord111111" target="_blank" class="contact-item">&#x1F431; GitHub</a>
-      <a href="mailto:rasimeireruan8@gmail.com" class="contact-item">&#x2709;&#xFE0F; Email</a>
-      <a href="https://github.com/overlord111111/overlord111111" target="_blank" class="contact-item">&#x1F4C4; Profile</a>
+      <a href="https://github.com/overlord111111" target="_blank" class="contact-item">
+        <span>&#x1F431;</span>
+        <div><strong>GitHub</strong><span class="contact-label">/overlord111111</span></div>
+      </a>
+      <a href="mailto:rasimeireruan8@gmail.com" class="contact-item">
+        <span>&#x2709;&#xFE0F;</span>
+        <div><strong>Email</strong><span class="contact-label">rasimeireruan8@gmail.com</span></div>
+      </a>
+      <a href="https://github.com/overlord111111/overlord111111" target="_blank" class="contact-item">
+        <span>&#x1F4C4;</span>
+        <div><strong>Profile README</strong><span class="contact-label">Bio completa</span></div>
+      </a>
     </div>
   </div>
 </section>
@@ -420,12 +451,29 @@
 </footer>
 
 <script>
-  const nav = document.getElementById('nav');
-  const toggle = document.getElementById('navToggle');
-  const links = document.getElementById('navLinks');
-  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
-  toggle.addEventListener('click', () => { links.classList.toggle('open'); toggle.classList.toggle('active'); });
-  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { links.classList.remove('open'); toggle.classList.remove('active'); }));
+// Theme
+const themeToggle = document.getElementById('themeToggle');
+const html = document.documentElement;
+const saved = localStorage.getItem('theme');
+if (saved) html.setAttribute('data-theme', saved);
+
+themeToggle.addEventListener('click', () => {
+  const cur = html.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  document.querySelector('meta[name="theme-color"]').setAttribute(
+    'content', next === 'dark' ? '#0a0a0b' : '#fafafa'
+  );
+});
+
+// Nav
+const nav = document.getElementById('nav');
+const toggle = document.getElementById('navToggle');
+const links = document.getElementById('navLinks');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+toggle.addEventListener('click', () => { links.classList.toggle('open'); toggle.classList.toggle('active'); });
+links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { links.classList.remove('open'); toggle.classList.remove('active'); }));
 </script>
 </body>
 </html>
