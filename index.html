@@ -311,7 +311,8 @@ footer{padding:40px 24px;border-top:1px solid var(--border);display:flex;justify
   body{cursor:auto}
   #cursor-ring,#cursor-dot{display:none!important}
   .hero-grid{grid-template-columns:1fr}
-  .hero-right{min-height:180px}
+  .hero-right{display:none}
+  .hero-left h1{font-size:clamp(2.2rem,8vw,3.5rem)}
   .about-grid,.skills-grid{grid-template-columns:1fr}
   .section-row{flex-direction:column;align-items:flex-start;gap:16px}
   .os-grid{grid-template-columns:1fr 1fr}
@@ -320,21 +321,34 @@ footer{padding:40px 24px;border-top:1px solid var(--border);display:flex;justify
   .nav-links.open{transform:translateY(0);opacity:1;pointer-events:all}
   .nav-links a{font-size:1.2rem}
   .nav-toggle{display:flex}
-  section{padding:70px 0}
-  .hero{min-height:auto;padding:130px 0 50px}
-  .stats-row{grid-template-columns:1fr 1fr;margin-top:40px}
-  .stats-row .stat-item{padding:20px}.stats-row .stat-item:nth-child(2){border-right:none}
-  .modal-content{padding:28px}
+  section{padding:60px 0}
+  .hero{min-height:auto;padding:120px 0 40px}
+  .hero .hero-scroll{display:none}
+  .stats-row{grid-template-columns:1fr 1fr;margin-top:32px}
+  .stats-row .stat-item{padding:16px}
+  .stats-row .stat-item:nth-child(2){border-right:none}
+  .about-card,.skill-domain{padding:24px}
+  .carousel-slide h3{font-size:1.2rem}
+  .carousel-slide .slide-inner{gap:24px}
+  .carousel-slide .slide-mockup{order:-1}
+  .mockup-frame{max-width:100%;aspect-ratio:16/9}
+  .carousel-btn{width:36px;height:36px;font-size:.85rem}
+  .carousel-controls{gap:12px;margin-top:24px}
+  .carousel-section{padding:60px 0 50px}
+  .modal-content{padding:24px}
   .status-line{display:none}
-  footer{flex-direction:column;gap:8px;text-align:center}
+  footer{flex-direction:column;gap:8px;text-align:center;padding:24px}
 }
 @media(max-width:480px){
+  .hero-left h1{font-size:clamp(1.8rem,9vw,2.5rem)}
   .os-grid,.skills-grid{grid-template-columns:1fr}
   .stats-row{grid-template-columns:1fr}
   .stats-row .stat-item{border-right:none;border-bottom:1px solid var(--border)}
   .stats-row .stat-item:last-child{border-bottom:none}
-  .carousel-slide h3{font-size:1.1rem}
-  .mockup-screen .ms-icon{font-size:2.2rem}
+  .carousel-slide h3{font-size:1rem}
+  .carousel-slide p{font-size:.82rem}
+  .mockup-screen .ms-icon{font-size:2rem}
+  .carousel-dots{display:none}
 }
 </style>
 </head>
