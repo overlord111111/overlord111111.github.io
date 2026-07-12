@@ -218,7 +218,7 @@ nav.scrolled{background:var(--glass);backdrop-filter:blur(24px) saturate(180%);p
    ═══════════════════════════════════════════════ */
 .carousel-section{padding:100px 0 80px;background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .carousel-wrap{overflow:hidden;width:100%}
-.carousel-track{display:flex;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.carousel-track{display:flex;transition:transform .5s cubic-bezier(.2,.8,.2,1);touch-action:pan-x;user-select:none}
 .carousel-slide{flex:0 0 100%;min-width:0;padding:20px 0}
 .carousel-slide .slide-inner{max-width:1120px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
 .carousel-slide .slide-tag{font-family:var(--font-mono);font-size:.65rem;color:var(--text-muted);margin-bottom:10px;display:flex;align-items:center;gap:6px}
@@ -684,6 +684,7 @@ slides.forEach((_,i)=>{
 });
 
 function goTo(i){
+  i=Math.max(0,Math.min(i,totalSlides-1));
   curIdx=i;
   track.style.transition='transform .5s cubic-bezier(.2,.8,.2,1)';
   track.style.transform='translateX(-'+((100/totalSlides)*curIdx)+'%)';
@@ -706,15 +707,16 @@ track.addEventListener('transitionend',wrapCarousel);
 
 prev.addEventListener('click',()=>{goTo(curIdx-1);restartAuto()});
 next.addEventListener('click',()=>{goTo(curIdx+1);restartAuto()});
-function startAuto(){if(auto){timer=setInterval(()=>{goTo(curIdx+1);setTimeout(wrapCarousel,500)},DUR)}}
+function startAuto(){if(auto){timer=setInterval(()=>{goTo(curIdx+1)},DUR)}}
 function stopAuto(){clearInterval(timer)}
 function restartAuto(){stopAuto();startAuto()}
 autoBtn.addEventListener('click',()=>{auto=!auto;autoBtn.innerHTML=auto?'&#9208;':'&#9654;';if(auto)startAuto();else stopAuto()});
 track.addEventListener('mouseenter',stopAuto);
 track.addEventListener('mouseleave',()=>{if(auto)startAuto()});
 // Touch
-let sx=0;
-track.addEventListener('touchstart',e=>{sx=e.changedTouches[0].screenX;stopAuto()},{passive:true});
+let sx=0,sy=0;
+track.addEventListener('touchstart',e=>{sx=e.changedTouches[0].screenX;sy=e.changedTouches[0].screenY;stopAuto()},{passive:true});
+track.addEventListener('touchmove',e=>{const dy=Math.abs(e.changedTouches[0].screenY-sy),dx=Math.abs(e.changedTouches[0].screenX-sx);if(dx>dy)e.preventDefault()},{passive:false});
 track.addEventListener('touchend',e=>{const ex=e.changedTouches[0].screenX,d=sx-ex;if(Math.abs(d)>50){if(d>0)goTo(curIdx+1);else goTo(curIdx-1)}if(auto)startAuto()},{passive:true});
 
 track.style.transform='translateX(-'+((100/totalSlides)*1)+'%)';
