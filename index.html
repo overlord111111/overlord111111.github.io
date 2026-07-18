@@ -862,6 +862,7 @@ function open(projectId){
       ${p.features.length?`<h3>Destaques</h3><ul>${p.features.map(f=>`<li>${f}</li>`).join('')}</ul>`:''}
       ${p.tech.length?`<h3>Tecnologias</h3><div class="pm-tags">${p.tech.map(t=>`<span>${t}</span>`).join('')}</div>`:''}
       <div class="pm-links">${linksHTML}</div>
+      <p style="margin-top:16px;font-size:.72rem;color:var(--text-muted);font-style:italic;border-top:1px solid var(--border);padding-top:14px">&#128274; Algumas informações foram omitidas por acordo de confidencialidade com o cliente. Para detalhes completos, entre em contato.</p>
     </div>`;
   overlay.classList.add('open');
   document.body.style.overflow='hidden';
