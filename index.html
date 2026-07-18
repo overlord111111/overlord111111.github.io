@@ -298,8 +298,43 @@ footer{padding:40px 24px;border-top:1px solid var(--border);position:relative;z-
 .toast.error{border-color:rgba(239,68,68,.3)}
 
 /* ═══════════════════════════════════════════════
-   RESPONSIVE
+   PROJECT MODAL
    ═══════════════════════════════════════════════ */
+.project-modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.88);backdrop-filter:blur(32px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .45s;padding:20px}
+.project-modal-overlay.open{opacity:1;pointer-events:all}
+.project-modal{max-width:820px;width:100%;max-height:88vh;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);overflow-y:auto;overflow-x:hidden;transform:translateY(36px) scale(.96);transition:transform .5s cubic-bezier(.2,.8,.2,1);position:relative}
+.project-modal-overlay.open .project-modal{transform:translateY(0) scale(1)}
+.pm-close{position:sticky;top:12px;right:12px;float:right;width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--bg-card);color:var(--text);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;z-index:10;backdrop-filter:blur(8px)}
+.pm-close:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:scale(1.08)}
+.pm-hero{position:relative;width:100%;aspect-ratio:21/9;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pm-hero .pm-h-icon{font-size:5rem;position:relative;z-index:1;opacity:.35}
+.pm-hero .pm-h-label{font-size:2rem;font-weight:800;position:relative;z-index:1;opacity:.08;color:var(--text);letter-spacing:-.04em}
+.pm-body{padding:36px 40px 40px}
+.pm-body .pm-tag{font-family:var(--font-mono);font-size:.65rem;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.pm-body h2{font-size:1.6rem;font-weight:700;letter-spacing:-.03em;margin-bottom:16px;line-height:1.15}
+.pm-body h3{font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin:28px 0 10px}
+.pm-body p{font-size:.88rem;color:var(--text-secondary);line-height:1.75;margin-bottom:12px}
+.pm-body ul{margin:0 0 18px 20px}
+.pm-body li{font-size:.85rem;color:var(--text-secondary);line-height:1.7;margin-bottom:6px}
+.pm-body .pm-tags{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0}
+.pm-body .pm-tags span{padding:5px 14px;background:var(--bg-card);border:1px solid var(--border);border-radius:100px;font-size:.72rem;color:var(--text-secondary);font-family:var(--font-mono)}
+.pm-body .pm-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.pm-body .pm-link{font-size:.82rem;font-weight:500;display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border:1px solid var(--border);border-radius:10px;transition:all .3s;color:var(--text)}
+.pm-body .pm-link:hover{border-color:var(--border-hover);background:var(--bg-card-hover);transform:translateY(-2px)}
+.pm-body .pm-link.live{background:var(--accent-glow);border-color:rgba(34,197,94,.25);color:var(--accent)}
+.pm-body .pm-link.live:hover{background:rgba(34,197,94,.2)}
+
+/* ═══════════════════════════════════════════════
+   CURSOR 2.0 — Ripple + Trail + Smooth
+   ═══════════════════════════════════════════════ */
+.cursor-trail{position:fixed;pointer-events:none;z-index:99998;border-radius:50%;width:5px;height:5px;background:rgba(245,240,235,.5);transform:translate(-50%,-50%);animation:trail-fade .6s ease-out forwards}
+@keyframes trail-fade{0%{opacity:.6;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(0)}}
+.cursor-ripple{position:fixed;pointer-events:none;z-index:99998;border-radius:50%;border:1px solid rgba(245,240,235,.4);transform:translate(-50%,-50%);animation:ripple-out .7s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes ripple-out{0%{width:0;height:0;opacity:.7}100%{width:80px;height:80px;opacity:0}}
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+
 @media(max-width:1024px){
   .hero-grid{grid-template-columns:1fr;gap:40px}
   .hero-right{min-height:200px}
@@ -732,6 +767,11 @@ footer{padding:40px 24px;border-top:1px solid var(--border);position:relative;z-
 </footer>
 <div class="toast" id="toast"></div>
 
+<!-- ─── Project Detail Modal ─── -->
+<div class="project-modal-overlay" id="projectModalOverlay">
+  <div class="project-modal" id="projectModal"></div>
+</div>
+
 <script>
 // ─── Nav ───
 (function(){const n=document.getElementById('nav');window.addEventListener('scroll',()=>n.classList.toggle('scrolled',window.scrollY>50));const t=document.getElementById('navToggle'),l=document.getElementById('navLinks');t.addEventListener('click',()=>l.classList.toggle('open'));l.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>l.classList.remove('open')))})();
@@ -739,8 +779,8 @@ footer{padding:40px 24px;border-top:1px solid var(--border);position:relative;z-
 // ─── Scroll Progress ───
 (function(){const b=document.querySelector('#scroll-progress span');window.addEventListener('scroll',()=>{const h=document.documentElement;b.style.width=((h.scrollTop/(h.scrollHeight-h.clientHeight))*100)+'%'})})();
 
-// ─── Cursor ───
-(function(){const r=document.getElementById('cursor-ring'),d=document.getElementById('cursor-dot');if(!r||!d)return;let mx=0,my=0,rx=0,ry=0;document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});document.addEventListener('mouseover',e=>{r.classList.toggle('hover',!!e.target.closest('a,button,.btn,.contact-chip,.nav-toggle,.service-card,.project-card,.process-step,.ci-card'))});document.addEventListener('mouseout',e=>{if(e.target.closest('a,button,.btn,.contact-chip,.nav-toggle,.service-card,.project-card,.process-step,.ci-card'))r.classList.remove('hover')});document.addEventListener('mouseleave',()=>{r.classList.add('hidden');d.classList.add('hidden')});document.addEventListener('mouseenter',()=>{r.classList.remove('hidden');d.classList.remove('hidden')});(function raf(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;r.style.left=rx+'px';r.style.top=ry+'px';d.style.left=mx+'px';d.style.top=my+'px';requestAnimationFrame(raf)})()})();
+// ─── Cursor 2.0 — Ripple + Trail ───
+(function(){const r=document.getElementById('cursor-ring'),d=document.getElementById('cursor-dot');if(!r||!d)return;let mx=0,my=0,rx=0,ry=0,px=0,py=0,lt=0;const hoverSel='a,button,.btn,.contact-chip,.nav-toggle,.service-card,.project-card,.process-step,.ci-card,.pm-close';document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;const now=Date.now();if(now-lt>35){const tr=document.createElement('div');tr.className='cursor-trail';tr.style.left=mx+'px';tr.style.top=my+'px';document.body.appendChild(tr);setTimeout(()=>tr.remove(),600);lt=now}});document.addEventListener('mouseover',e=>{r.classList.toggle('hover',!!e.target.closest(hoverSel))});document.addEventListener('mouseout',e=>{if(e.target.closest(hoverSel))r.classList.remove('hover')});document.addEventListener('mouseleave',()=>{r.classList.add('hidden');d.classList.add('hidden')});document.addEventListener('mouseenter',()=>{r.classList.remove('hidden');d.classList.remove('hidden')});document.addEventListener('click',e=>{const ri=document.createElement('div');ri.className='cursor-ripple';ri.style.left=e.clientX+'px';ri.style.top=e.clientY+'px';document.body.appendChild(ri);setTimeout(()=>ri.remove(),700)});(function raf(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;r.style.left=rx+'px';r.style.top=ry+'px';d.style.left=mx+'px';d.style.top=my+'px';requestAnimationFrame(raf)})()})();
 
 // ─── Canvas Particles ───
 (function(){const c=document.getElementById('hero-canvas');if(!c)return;const ctx=c.getContext('2d');let w,h,pts=[],mouse={x:-999,y:-999};function resize(){const r=c.parentElement.getBoundingClientRect(),dpr=window.devicePixelRatio||1;w=r.width;h=r.height;c.width=w*dpr;c.height=h*dpr;c.style.width=w+'px';c.style.height=h+'px';ctx.scale(dpr,dpr);pts=[];const sp=Math.max(12,w/25);for(let x=0;x<w;x+=sp)for(let y=0;y<h;y+=sp)if(Math.random()>.15)pts.push({x:x+Math.random()*4-2,y:y+Math.random()*4-2,ox:x,oy:y,r:Math.random()*.5+1.5,o:Math.random()*.3+.1})}function draw(){ctx.clearRect(0,0,w,h);pts.forEach(p=>{const dx=mouse.x-p.x,dy=mouse.y-p.y,dist=Math.sqrt(dx*dx+dy*dy);let s=1;if(dist<80)s=1+(1-dist/80)*2;p.x+=(p.ox+(p.x-p.ox)*.02-p.x)*.1;p.y+=(p.oy+(p.y-p.oy)*.02-p.y)*.1;const a=Math.min(p.o*s,.6);ctx.beginPath();ctx.arc(p.x,p.y,p.r*s,0,Math.PI*2);ctx.fillStyle='rgba(245,240,235,'+a+')';ctx.fill()});requestAnimationFrame(draw)}document.addEventListener('mousemove',e=>{const r=c.parentElement.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top});window.addEventListener('resize',resize);resize();draw()})();
@@ -759,6 +799,122 @@ footer{padding:40px 24px;border-top:1px solid var(--border);position:relative;z-
 
 // ─── Toast for ?sent=true ───
 (function(){const p=new URLSearchParams(window.location.search);if(p.get('sent')==='true'){const t=document.getElementById('toast');t.textContent='Mensagem enviada com sucesso! Entrarei em contato.';t.className='toast success show';setTimeout(()=>t.classList.remove('show'),5000);window.history.replaceState({},'','/')}})();
+
+// ─── Project Modal ───
+(function(){
+const projects={
+  limp:{
+    tag:'fullstack/2026',title:'LIMP+ — Agendamento de Limpeza',icon:'&#127968;',cssClass:'m-limp',
+    about:'Sistema completo de agendamento para empresa de limpeza de apartamentos por temporada em Maceió. Substituiu planilhas manuais e grupos de WhatsApp por uma plataforma profissional com dashboard administrativo.',
+    features:['Calendário visual (mês/semana/lista) com blocos coloridos por status','Check-in e check-out com restrições de horário','Dashboard admin com gráficos de receita, ocupação e clientes','Gestão de prédios (condomínios) com múltiplas unidades','Sistema de tickets com status: Pendente, Confirmado, Concluído, Cancelado','Autenticação de administradores com sessão segura','Anti-bot: honeypot + timer nos formulários públicos','Exportação de dados em CSV para contabilidade'],
+    tech:['Node.js','Express','EJS','PostgreSQL','Render','Neon.tech','Chart.js','API REST'],
+    challenges:'O maior desafio foi migrar de SQLite (sql.js) para PostgreSQL sem downtime, mantendo a lógica de calendário que precisava ser refeita. Também implementei um sistema anti-bot sem CAPTCHA visível — usando honeypot fields e delay mínimo de submissão.',
+    result:'Plataforma em produção desde 2026, com zero perda de agendamentos na migração. Cliente relatou redução de 80% no tempo gasto com organização de limpezas.',
+    links:[{label:'Site ao vivo',url:'https://limpmaisz.com.br',live:true},{label:'GitHub (privado)',url:'#',live:false}]
+  },
+  zentor:{
+    tag:'ecommerce/2026',title:'Zentor — E-commerce Esportivo',icon:'&#9917;',cssClass:'m-zentor',
+    about:'Loja virtual completa de chuteiras e material esportivo. Desenvolvido do zero com catálogo dinâmico, busca com filtros, carrinho de compras e painel administrativo completo para gestão de produtos e pedidos.',
+    features:['Catálogo de produtos com imagens, categorias e variações de tamanho','Carrinho de compras com cálculo de frete','Painel admin: CRUD de produtos, gestão de pedidos, dashboard','Busca com filtros por categoria, marca, preço','Design responsivo mobile-first com tema escuro esportivo','Deploy na Vercel com banco Turso (SQLite distribuído)','SEO otimizado para cada página de produto'],
+    tech:['Express','EJS','Turso DB','Vercel','JavaScript','CSS3','HTML5'],
+    challenges:'Implementar um e-commerce funcional sem usar plataformas prontas (Shopify, WooCommerce). O maior desafio técnico foi a busca com múltiplos filtros combinados mantendo performance no banco SQLite.',
+    result:'Site no ar com catálogo completo de produtos. Painel admin permite ao cliente gerenciar todo o estoque sem conhecimento técnico.',
+    links:[{label:'Site ao vivo',url:'https://zentor-site-one.vercel.app',live:true},{label:'GitHub (privado)',url:'#',live:false}]
+  },
+  simplipt:{
+    tag:'opensource/2026',title:'SimpliPT — Linguagem em Português',icon:'&#128221;',cssClass:'m-simplipt',
+    about:'Linguagem de programação interpretada 100% em português. Criada para facilitar o aprendizado de lógica de programação para brasileiros. Sintaxe limpa e intuitiva, sem palavras em inglês.',
+    features:['CLI completa com REPL interativo','Servidor web embutido (rota, método, resposta)','Banco de dados SQLite nativo','Template engine para gerar HTML dinâmico','LSP (Language Server Protocol) para editores de código','Hot-reload automático durante desenvolvimento','Modo debug passo a passo','Zero dependências externas — apenas Python stdlib','Publicada no PyPI (v5.3.0)'],
+    tech:['Python','PyPI','LSP','SQLite','Template Engine','CLI'],
+    challenges:'Projetar uma gramática completa que fosse expressiva o suficiente para projetos reais mas simples para iniciantes. Implementar o LSP do zero foi particularmente complexo — exige entender o protocolo e mapear a AST da linguagem.',
+    result:'v5.3.0 publicada no PyPI com downloads orgânicos. Usada como ferramenta educacional. Código 100% aberto no GitHub.',
+    links:[{label:'GitHub',url:'https://github.com/overlord111111/simplipt',live:true},{label:'PyPI',url:'https://pypi.org/project/simplipt/',live:true}]
+  },
+  chess:{
+    tag:'game/2025',title:'Chess.com Reconstruído',icon:'&#9818;',cssClass:'m-chess',
+    about:'Clone funcional completo do Chess.com construído do zero. Inclui motor de xadrez com todas as regras oficiais (FIDE), incluindo movimentos especiais como roque, en passant e promoção.',
+    features:['Motor de jogo completo com validação de todos os movimentos FIDE','Interface de tabuleiro interativa com highlights de movimentos','Sistema de análise de partidas (detecção de táticas: garfo, cravada, espeto)','Engine de IA integrada para jogo contra o computador','Histórico de partidas com replay','Suporte a notação algébrica (PGN)'],
+    tech:['Python','JavaScript','Algoritmos','Engine de Xadrez'],
+    challenges:'Implementar todas as regras de xadrez corretamente é surpreendentemente complexo. Roque tem 6 condições, en passant tem timing específico, e a detecção de xeque-mate vs afogamento exigiu lógica cuidadosa.',
+    result:'Motor de xadrez funcional com engine de IA capaz de jogar em nível intermediário. Projeto entregue para cliente com documentação completa.',
+    links:[{label:'Projeto cliente',url:'#',live:false}]
+  },
+  tradutor:{
+    tag:'automação/2024',title:'Tradutor Automático de Games',icon:'&#127760;',cssClass:'m-translator',
+    about:'Pipeline completo de tradução automática de jogos (inglês → português). Extrai textos de múltiplos formatos de jogo, traduz com Google Translate em batches paralelos, e reinsere mantendo a estrutura original.',
+    features:['Extração de textos de formatos: Ren\'Py (.rpy), Unity, APK, JSON, XML','Tradução em lote com Google Translate (8 workers paralelos)','Cache inteligente para evitar re-traduzir textos já processados','Glossário técnico customizável (termos que não devem ser traduzidos)','Preservação de placeholders e variáveis ({0}, {name}, etc.)','Reinserção stealth em APKs com apksigner v1+v2','Seletor de idioma nativo quando o jogo já suporta múltiplos idiomas'],
+    tech:['Python','Google Translate API','NLP','Processamento Paralelo','APK Tooling','apksigner'],
+    challenges:'O maior desafio foi o sistema de extract-and-reinsert: extrair variáveis ANTES da tradução, armazená-las como placeholders, e reinserir depois — garantindo que o Google Translate nunca veja os placeholders e os corrompa. Também foi complexo lidar com diferentes formatos de empacotamento (APK, .rpa, etc.).',
+    result:'Pipeline processando ~10.000 linhas de diálogo por minuto com 8 workers. Cliente reportou 95% de precisão na tradução com glossário configurado.',
+    links:[{label:'Projeto cliente',url:'#',live:false}]
+  },
+  mobile:{
+    tag:'devops/2024',title:'Portador de Jogos Mobile',icon:'&#128241;',cssClass:'m-mobile',
+    about:'Sistema de empacotamento e adaptação de jogos desktop (Ren\'Py, Unity) para dispositivos Android. Pipeline automatizado que gerencia builds, otimiza assets e assina APKs.',
+    features:['Conversão de jogos Ren\'Py e Unity para APK Android','Otimização automática de assets (compressão de texturas, áudio)','Pipeline de build automatizado com versionamento','Assinatura APK com apksigner (v1+v2)','Gerenciamento de múltiplas versões e variantes','Testes automatizados de compatibilidade'],
+    tech:['Python','DevOps','APK','Build Systems','Android','Ren\'Py'],
+    challenges:'Cada motor de jogo tem seu próprio formato de empacotamento. Unificar o pipeline para suportar múltiplos formatos exigiu uma arquitetura modular com adapters por motor. A assinatura APK v1+v2 também foi um desafio — muitos tutoriais online usam jarsigner (obsoleto).',
+    result:'Pipeline funcionando para 3 motores de jogo diferentes. Redução de 2h (processo manual) para 5min (automático) por build.',
+    links:[{label:'Projeto cliente',url:'#',live:false}]
+  }
+};
+
+const overlay=document.getElementById('projectModalOverlay');
+const modal=document.getElementById('projectModal');
+if(!overlay||!modal)return;
+
+function open(projectId){
+  const p=projects[projectId];
+  if(!p)return;
+  const linksHTML=p.links.map(l=>`<a href="${l.url}" target="_blank" class="pm-link${l.live?' live':''}">${l.live?'↗':''} ${l.label}</a>`).join('');
+  modal.innerHTML=`
+    <button class="pm-close" id="pmClose">&times;</button>
+    <div class="pm-hero ${p.cssClass}"><div class="m-pattern"></div><span class="pm-h-icon">${p.icon}</span><span class="pm-h-label">${p.title.split('—')[0].trim()}</span><div class="mockup-gl"></div></div>
+    <div class="pm-body">
+      <div class="pm-tag"><span class="prompt-sign" style="color:var(--accent)">$</span> ${p.tag}</div>
+      <h2>${p.title}</h2>
+      <p>${p.about}</p>
+      <h3>Funcionalidades</h3>
+      <ul>${p.features.map(f=>`<li>${f}</li>`).join('')}</ul>
+      <h3>Tecnologias</h3>
+      <div class="pm-tags">${p.tech.map(t=>`<span>${t}</span>`).join('')}</div>
+      <h3>Desafios & Soluções</h3>
+      <p>${p.challenges}</p>
+      <h3>Resultado</h3>
+      <p>${p.result}</p>
+      <div class="pm-links">${linksHTML}</div>
+    </div>`;
+  overlay.classList.add('open');
+  document.body.style.overflow='hidden';
+  document.getElementById('pmClose').addEventListener('click',close);
+}
+
+function close(){
+  overlay.classList.remove('open');
+  document.body.style.overflow='';
+}
+
+overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+
+// Bind click on all project cards
+document.querySelectorAll('.project-card').forEach(card=>{
+  card.style.cursor='pointer';
+  card.addEventListener('click',function(e){
+    // Don't open if user clicked a link inside the card
+    if(e.target.closest('a'))return;
+    const body=this.querySelector('.pj-body');
+    if(!body)return;
+    const h3=body.querySelector('h3');
+    if(!h3)return;
+    const title=h3.textContent.trim();
+    const map={'LIMP+':'limp','Zentor':'zentor','SimpliPT':'simplipt','Chess.com':'chess','Tradutor':'tradutor','Portador':'mobile'};
+    for(const [k,v] of Object.entries(map)){
+      if(title.includes(k)){open(v);return;}
+    }
+  });
+});
+})();
 </script>
 
 </body>
