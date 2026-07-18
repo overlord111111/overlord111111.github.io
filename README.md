@@ -34,4 +34,4 @@ Desenvolvedor full-stack e especialista em segurança ofensiva. +25 projetos ent
 
 ---
 
-© 2026 Over — Maceió, Brasil
+© 2026 Over — Brasil
