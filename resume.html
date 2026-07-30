@@ -4,89 +4,136 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Over — Currículo</title>
+<meta name="description" content="Currículo de Over, desenvolvedor full-stack, automação, infraestrutura e segurança ofensiva."/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#fafafa;--card:#fff;--text:#111;--text2:#555;--text3:#888;--border:#eee}
-@media(prefers-color-scheme:dark){
-:root{--bg:#0a0a0b;--card:#131315;--text:#e4e4e7;--text2:#a1a1aa;--text3:#71717a;--border:#1f1f23}
-body{background:var(--bg);color:var(--text)}
-.container{background:var(--card);border-color:var(--border)}
-.skill-grid span{background:var(--border);color:var(--text2)}
-h2{border-color:var(--border)}.sub{border-color:var(--border)}.item .meta{color:var(--text3)}
-p,li{color:var(--text2)}
-.print-btn{background:var(--text);color:var(--bg)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f4f4f1;--paper:#fff;--text:#111;--muted:#555;--soft:#777;--line:#e5e5df;--chip:#f2f2ee;--accent:#14532d}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.55;padding:32px 18px}
+.page{max-width:920px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:44px;box-shadow:0 24px 80px rgba(0,0,0,.08)}
+.top{display:grid;grid-template-columns:1.4fr .9fr;gap:28px;align-items:start;padding-bottom:24px;border-bottom:1px solid var(--line)}
+h1{font-size:2.35rem;line-height:1;font-weight:800;letter-spacing:-.04em;margin-bottom:10px}
+.role{font-size:1rem;color:var(--muted);font-weight:500}
+.summary{margin-top:18px;color:var(--muted);max-width:620px}
+.contact{display:grid;gap:8px;font-size:.86rem;color:var(--muted);justify-items:end;text-align:right}
+.contact a{color:inherit;text-decoration:none;overflow-wrap:anywhere}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.pill,.skill-grid span{display:inline-flex;align-items:center;padding:5px 11px;border:1px solid var(--line);border-radius:999px;background:var(--chip);font-size:.78rem;color:var(--muted);font-weight:500}
+section{padding:24px 0;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:none}
+h2{font-size:.82rem;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:14px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.item{margin-bottom:18px}
+.item:last-child{margin-bottom:0}
+h3{font-size:1rem;letter-spacing:-.01em;margin-bottom:4px}
+.meta{font-size:.8rem;color:var(--soft);font-weight:600;margin-bottom:6px}
+p,li{font-size:.9rem;color:var(--muted)}
+ul{margin-left:18px}
+li{margin-bottom:5px}
+.skill-grid{display:flex;flex-wrap:wrap;gap:7px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+button,a.button{border:0;border-radius:10px;background:#111;color:#fff;padding:10px 16px;font:600 .86rem 'Inter',sans-serif;text-decoration:none;cursor:pointer}
+a.button.secondary{background:transparent;color:#111;border:1px solid var(--line)}
+@media(max-width:720px){
+  body{padding:0;background:var(--paper)}
+  .page{border:0;border-radius:0;box-shadow:none;padding:28px 18px}
+  .top,.grid-2{grid-template-columns:1fr}
+  .contact{justify-items:start;text-align:left}
+  h1{font-size:2rem}
+  section{padding:22px 0}
 }
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:40px 24px}
-.container{max-width:800px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:48px}
-h1{font-size:2rem;font-weight:700;letter-spacing:-.02em;margin-bottom:4px}
-.sub{color:#888;font-size:.9rem;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid #eee}
-h2{font-size:1rem;font-weight:600;margin:24px 0 12px;padding-bottom:4px;border-bottom:1px solid #eee;letter-spacing:-.01em}
-p,li{font-size:.875rem;color:#555;line-height:1.7}
-ul{margin:0 0 16px 20px}
-li{margin-bottom:4px}
-.skill-grid{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 16px}
-.skill-grid span{padding:4px 12px;background:#f5f5f5;border-radius:20px;font-size:.8rem;color:#444}
-.item{margin-bottom:16px}
-.item h3{font-size:.9rem;font-weight:600;margin-bottom:2px}
-.item .meta{font-size:.78rem;color:#888;margin-bottom:4px}
-.print-btn{display:inline-block;margin-top:24px;padding:10px 20px;background:#111;color:#fff;border:none;border-radius:8px;font-size:.85rem;cursor:pointer;font-family:inherit;font-weight:500}
-.print-btn:hover{background:#333}
-@media print{body{background:#fff;padding:0}.container{border:none;padding:0;box-shadow:none}.print-btn{display:none}}
-@media (max-width:600px){.container{padding:24px}}
+@media print{
+  body{background:#fff;padding:0}
+  .page{max-width:none;border:0;border-radius:0;box-shadow:none;padding:0}
+  .actions{display:none}
+  section{break-inside:avoid;padding:16px 0}
+  a{color:inherit}
+}
 </style>
 </head>
 <body>
-<div class="container">
-<h1>Over</h1>
-<div class="sub">Desenvolvedor &bull; Hacker Ético &bull; over.lord.hck@proton.me &bull; Brasil</div>
+<main class="page">
+  <header class="top">
+    <div>
+      <h1>Over</h1>
+      <div class="role">Desenvolvedor Full-Stack • Automação • Infraestrutura • Segurança Ofensiva</div>
+      <p class="summary">Programador brasileiro focado em construir software que resolve problemas reais: sites, sistemas web, dashboards, APIs, automações, pipelines e revisões técnicas com atenção a segurança, performance e entrega.</p>
+      <div class="meta-row">
+        <span class="pill">+25 projetos entregues</span>
+        <span class="pill">+15 clientes atendidos</span>
+        <span class="pill">7+ anos de código</span>
+      </div>
+    </div>
+    <address class="contact">
+      <a href="mailto:over.lord.hck@proton.me">over.lord.hck@proton.me</a>
+      <a href="https://wa.me/5574999865693">(74) 99986-5693</a>
+      <a href="https://overlord111111.github.io">overlord111111.github.io</a>
+      <a href="https://github.com/overlord111111">github.com/overlord111111</a>
+      <span>Brasil</span>
+    </address>
+  </header>
 
-<h2>Resumo</h2>
-<p>Programador multifuncional e hacker ético brasileiro. Experiência em desenvolvimento web, segurança ofensiva, automação, OSINT e engenharia reversa. Criação de ferramentas, sistemas completos e soluções personalizadas para clientes.</p>
+  <section>
+    <h2>Perfil</h2>
+    <p>Atuo de ponta a ponta: entendimento do problema, arquitetura, desenvolvimento, deploy e suporte pós-entrega. Minha base é Python, mas trabalho também com JavaScript, bancos SQL, Docker, Linux, CI/CD e integrações. Tenho experiência com projetos para clientes, ferramentas open source, automação de processos e análise ofensiva de segurança.</p>
+  </section>
 
-<h2>Principais Projetos</h2>
+  <section>
+    <h2>Projetos em Destaque</h2>
+    <div class="item">
+      <h3>LIMP+ — Sistema de Agendamento de Limpeza</h3>
+      <div class="meta">Full-stack • API REST • Dashboard • Cloud • 2026</div>
+      <p>Sistema em produção para agendamento e gestão de serviços de limpeza, com dashboard administrativo, calendário visual, gestão de status e fluxo mais organizado para operação interna.</p>
+    </div>
+    <div class="item">
+      <h3>Zentor — E-commerce Esportivo</h3>
+      <div class="meta">E-commerce • Full-stack • Painel Admin • 2026</div>
+      <p>Loja virtual responsiva para artigos esportivos, com catálogo, carrinho, busca, painel administrativo e foco em performance para navegação mobile.</p>
+    </div>
+    <div class="item">
+      <h3>SimpliPT — Linguagem de Programação em Português</h3>
+      <div class="meta">Python • Open Source • CLI • PyPI • SQLite</div>
+      <p>Linguagem interpretada em português com REPL, servidor web embutido, banco SQLite, template engine, hot-reload e distribuição pública no PyPI.</p>
+    </div>
+    <div class="item">
+      <h3>Tradutor Automático de Games</h3>
+      <div class="meta">Python • Automação • NLP • Pipeline Paralelo</div>
+      <p>Pipeline para extração, tradução em lote e reinserção de textos em jogos, preservando estrutura, placeholders e glossário técnico customizável.</p>
+    </div>
+  </section>
 
-<div class="item">
-<h3>SimpliPT</h3>
-<div class="meta">Python • Open Source</div>
-<p>Linguagem de programação em português com CLI completa, servidor web embutido, banco SQLite, template engine, modo debug, LSP, hot-reload. Zero dependências externas. v5.3.0 publicada no PyPI.</p>
-</div>
+  <section>
+    <h2>Competências Técnicas</h2>
+    <div class="grid-2">
+      <div>
+        <h3>Desenvolvimento</h3>
+        <div class="skill-grid">
+          <span>Python</span><span>Django</span><span>FastAPI</span><span>JavaScript</span><span>Express</span><span>HTML/CSS</span><span>APIs REST</span><span>SQL</span>
+        </div>
+      </div>
+      <div>
+        <h3>Infra, Automação e Segurança</h3>
+        <div class="skill-grid">
+          <span>Docker</span><span>Linux</span><span>Git</span><span>CI/CD</span><span>Nginx</span><span>PostgreSQL</span><span>Pentest Web</span><span>OSINT</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<div class="item">
-<h3>Chess.com Reconstruído</h3>
-<div class="meta">Python • JavaScript • Engine • Projeto para cliente</div>
-<p>Clone funcional do Chess.com com motor de jogo completo, validação de movimentos, sistema de análise de partidas e detecção de táticas.</p>
-</div>
+  <section>
+    <h2>Serviços</h2>
+    <ul>
+      <li>Desenvolvimento de sites, sistemas, dashboards, APIs e aplicações web completas.</li>
+      <li>Automação de processos, bots, scrapers, integrações e pipelines de deploy.</li>
+      <li>Consultoria técnica em arquitetura, escolha de stack, performance e banco de dados.</li>
+      <li>Análise de segurança, pentest web, hardening e revisão de código.</li>
+    </ul>
+  </section>
 
-<div class="item">
-<h3>Tradutor Automático de Games</h3>
-<div class="meta">Python • NLP • Automação • Projeto para cliente</div>
-<p>Ferramenta que extrai, traduz e reinsere textos de jogos automaticamente com suporte a múltiplos formatos e glossário técnico.</p>
-</div>
-
-<div class="item">
-<h3>Micro SaaS Completo</h3>
-<div class="meta">Full-stack • APIs • Projeto para cliente</div>
-<p>Plataforma SaaS com autenticação, billing, dashboard, APIs REST, webhooks e multitenancy. Pipeline de deploy automatizado.</p>
-</div>
-
-<h2>Habilidades Técnicas</h2>
-<div class="skill-grid">
-<span>Python</span><span>JavaScript</span><span>Bash</span><span>SQL</span><span>Docker</span><span>Linux</span><span>Git</span><span>FastAPI</span><span>Django</span><span>HTML/CSS</span>
-</div>
-
-<h2>Áreas de Atuação</h2>
-<div class="skill-grid">
-<span>Desenvolvimento Web</span><span>Segurança Ofensiva</span><span>Pentest</span><span>Automação</span><span>OSINT</span><span>Eng. Reversa</span><span>Infraestrutura</span><span>DevOps</span>
-</div>
-
-<h2>Contato</h2>
-<p>Email: over.lord.hck@proton.me<br/>
-Portfolio: overlord111111.github.io<br/>
-GitHub: github.com/overlord111111</p>
-
-<button class="print-btn" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
-<button class="print-btn" style="margin-left:8px" onclick="document.documentElement.style.setProperty('--bg',document.documentElement.style.getPropertyValue('--bg')==='#0a0a0b'?'#fafafa':'#0a0a0b')">🌓 Tema</button>
-</div>
+  <div class="actions">
+    <button onclick="window.print()">Imprimir / Salvar PDF</button>
+    <a class="button secondary" href="index.html">Voltar ao portfólio</a>
+  </div>
+</main>
 </body>
 </html>
