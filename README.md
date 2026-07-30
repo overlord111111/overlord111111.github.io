@@ -9,16 +9,16 @@ Desenvolvedor full-stack e especialista em segurança ofensiva. +25 projetos ent
 - 🌐 **Site:** [overlord111111.github.io](https://overlord111111.github.io)
 - 💻 **GitHub:** [github.com/overlord111111](https://github.com/overlord111111)
 - 📧 **Email:** over.lord.hck@proton.me
-- 📱 **WhatsApp:** [(82) 98858-2052](https://wa.me/5582988582052)
+- 📱 **WhatsApp:** [(74) 999865693](https://wa.me/5582988582052)
 
 ## 🛠️ Serviços
 
 | Serviço | Descrição | A partir de |
 |---------|-----------|-------------|
-| Desenvolvimento Web | Sites, sistemas, dashboards, APIs REST | R$ 1.500 |
-| Automação & Infra | Bots, scrapers, pipelines CI/CD | R$ 800 |
-| Segurança Ofensiva | Pentest web, hardening, code review | R$ 2.000 |
-| Consultoria Técnica | Arquitetura, mentoria, otimização | R$ 120/h |
+| Desenvolvimento Web | Sites, sistemas, dashboards, APIs REST | Sob consulta |
+| Automação & Infra | Bots, scrapers, pipelines CI/CD | Sob consulta |
+| Segurança Ofensiva | Pentest web, hardening, code review | Sob consulta |
+| Consultoria Técnica | Arquitetura, mentoria, otimização | Sob consulta |
 
 ## 🚀 Projetos em Destaque
 
