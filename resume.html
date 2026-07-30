@@ -8,9 +8,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#f4f4f1;--paper:#fff;--text:#111;--muted:#555;--soft:#777;--line:#e5e5df;--chip:#f2f2ee;--accent:#14532d}
+:root{--bg:#050505;--paper:#0a0a0a;--text:#f5f0eb;--muted:rgba(245,240,235,.5);--soft:rgba(245,240,235,.35);--line:rgba(255,255,255,.06);--chip:rgba(255,255,255,.035);--accent:#22c55e}
 body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.55;padding:32px 18px}
-.page{max-width:920px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:44px;box-shadow:0 24px 80px rgba(0,0,0,.08)}
+.page{max-width:920px;margin:0 auto;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:44px;box-shadow:0 24px 80px rgba(0,0,0,.4)}
 .top{display:grid;grid-template-columns:1.4fr .9fr;gap:28px;align-items:start;padding-bottom:24px;border-bottom:1px solid var(--line)}
 h1{font-size:2.35rem;line-height:1;font-weight:800;letter-spacing:-.04em;margin-bottom:10px}
 .role{font-size:1rem;color:var(--muted);font-weight:500}
@@ -32,10 +32,10 @@ ul{margin-left:18px}
 li{margin-bottom:5px}
 .skill-grid{display:flex;flex-wrap:wrap;gap:7px}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
-button,a.button{border:0;border-radius:10px;background:#111;color:#fff;padding:10px 16px;font:600 .86rem 'Inter',sans-serif;text-decoration:none;cursor:pointer}
-a.button.secondary{background:transparent;color:#111;border:1px solid var(--line)}
+button,a.button{border:0;border-radius:10px;background:var(--text);color:var(--bg);padding:10px 16px;font:600 .86rem 'Inter',sans-serif;text-decoration:none;cursor:pointer}
+a.button.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}
 @media(max-width:720px){
-  body{padding:0;background:var(--paper)}
+  body{padding:0;background:var(--bg)}
   .page{border:0;border-radius:0;box-shadow:none;padding:28px 18px}
   .top,.grid-2{grid-template-columns:1fr}
   .contact{justify-items:start;text-align:left}
@@ -43,7 +43,12 @@ a.button.secondary{background:transparent;color:#111;border:1px solid var(--line
   section{padding:22px 0}
 }
 @media print{
-  body{background:#fff;padding:0}
+  body{background:#fff;padding:0;color:#111}
+  .page{background:#fff;border-color:#e5e5df}
+  h2{color:#14532d}
+  p,li,.summary,.role,.contact,.contact a,.meta{color:#555}
+  .pill,.skill-grid span{background:#f2f2ee;border-color:#e5e5df;color:#555}
+  button,a.button{background:#111;color:#fff}
   .page{max-width:none;border:0;border-radius:0;box-shadow:none;padding:0}
   .actions{display:none}
   section{break-inside:avoid;padding:16px 0}
@@ -61,7 +66,7 @@ a.button.secondary{background:transparent;color:#111;border:1px solid var(--line
       <div class="meta-row">
         <span class="pill">+25 projetos entregues</span>
         <span class="pill">+15 clientes atendidos</span>
-        <span class="pill">7+ anos de código</span>
+        <span class="pill">5+ anos de código</span>
       </div>
     </div>
     <address class="contact">
